@@ -2,11 +2,86 @@
   <img src="https://s3.amazonaws.com/ohmyzsh/oh-my-zsh-logo.png" alt="Oh My Zsh">
 </p>
 
+# IMPORTANT
+
+In order for this custom framework to work follow this short tutorial
+
+Make sure the remote repository is setup like this
+
+```
+git remote -v
+
+F0Xedb  git@github.com:F0xedb/oh-my-zsh.git (fetch)
+F0Xedb  git@github.com:F0xedb/oh-my-zsh.git (push)
+origin  https://github.com/robbyrussell/oh-my-zsh.git (fetch)
+origin  https://github.com/robbyrussell/oh-my-zsh.git (push)
+```
+
+You can change the protocol if you want but origin must point to robbyrussell.
+
+This guarantees that your framework is updated correctly
+
+your .zshrc file must contain the following
+
+```
+export ZSH="/home/$USER/.oh-my-zsh"
+export ZSH_LOAD=$ZSH/load
+export ZSH_PRELOAD=$ZSH_LOAD/preload
+
+
+function load() {
+  for script in $(ls $1)
+  do
+    LOC=$1"/"$script
+    if [ -f $LOC ]; then
+      #only load a file that is an sh extentions
+      if [[ $LOC == *.sh ]]; then
+        . $LOC
+      fi
+    fi
+  done
+}
+
+
+#load every script that needs to load before the oh my zsh framework
+load $ZSH_PRELOAD
+
+#load the oh my zsh framework
+source $ZSH/oh-my-zsh.sh
+
+#load every other script after the oh my zsh framework (thus we can use its functions)
+load $ZSH_LOAD
+```
+
+This will load scripts from the .oh-my-zsh/load directory
+This directory has the following structure
+
+- load
+  - \*.sh
+  - \*.\*
+  - preload
+    - \*.sh
+    - \*.\*
+
+Only .sh files will be executed all other files will be ignored
+The preload directory is executed before the oh-my-zsh framework is loaded.
+The load directory is loaded after the .oh-my-zsh framework
+
+Every configuration that is required by oh-my-zsh should be in the preload directory
+
+Alternative you can use the .zshrc if you don't want to make your own
+
+```
+cp .zshrc ~/.zshrc
+```
+
+---
+
 Oh My Zsh is an open source, community-driven framework for managing your [zsh](https://www.zsh.org/) configuration.
 
 Sounds boring. Let's try again.
 
-__Oh My Zsh will not make you a 10x developer...but you might feel like one.__
+**Oh My Zsh will not make you a 10x developer...but you might feel like one.**
 
 Once installed, your terminal shell will become the talk of the town _or your money back!_ With each keystroke in your command prompt, you'll take advantage of the hundreds of powerful plugins and beautiful themes. Strangers will come up to you in cafés and ask you, _"that is amazing! are you some sort of genius?"_
 
@@ -18,12 +93,12 @@ To learn more, visit [ohmyz.sh](https://ohmyz.sh) and follow [@ohmyzsh](https://
 
 ### Prerequisites
 
-__Disclaimer:__ _Oh My Zsh works best on macOS and Linux._
+**Disclaimer:** _Oh My Zsh works best on macOS and Linux._
 
-* Unix-like operating system (macOS or Linux)
-* [Zsh](https://www.zsh.org) should be installed (v4.3.9 or more recent). If not pre-installed (`zsh --version` to confirm), check the following instruction here: [Installing ZSH](https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH)
-* `curl` or `wget` should be installed
-* `git` should be installed
+- Unix-like operating system (macOS or Linux)
+- [Zsh](https://www.zsh.org) should be installed (v4.3.9 or more recent). If not pre-installed (`zsh --version` to confirm), check the following instruction here: [Installing ZSH](https://github.com/robbyrussell/oh-my-zsh/wiki/Installing-ZSH)
+- `curl` or `wget` should be installed
+- `git` should be installed
 
 ### Basic Installation
 
@@ -71,7 +146,7 @@ plugins=(
 
 #### Using Plugins
 
-Most plugins (should! we're working on this) include a __README__, which documents how to use them.
+Most plugins (should! we're working on this) include a **README**, which documents how to use them.
 
 ### Themes
 
@@ -103,7 +178,6 @@ Open up a new terminal window and your prompt should look something like this:
 In case you did not find a suitable theme for your needs, please have a look at the wiki for [more of them](https://github.com/robbyrussell/oh-my-zsh/wiki/External-themes).
 
 If you're feeling feisty, you can let the computer select one randomly for you each time you open a new terminal window.
-
 
 ```shell
 ZSH_THEME="random" # (...please let it be pie... please be some pie..)
@@ -144,7 +218,7 @@ export ZSH="$HOME/.dotfiles/oh-my-zsh"; sh -c "$(curl -fsSL https://raw.githubus
 git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 ```
 
-##### 2. *Optionally*, backup your existing `~/.zshrc` file:
+##### 2. _Optionally_, backup your existing `~/.zshrc` file:
 
 ```shell
 cp ~/.zshrc ~/.zshrc.orig
@@ -172,8 +246,8 @@ Once you open up a new terminal window, it should load zsh with Oh My Zsh's conf
 
 If you have any hiccups installing, here are a few common fixes.
 
-* You _might_ need to modify your `PATH` in `~/.zshrc` if you're not able to find some commands after switching to `oh-my-zsh`.
-* If you installed manually or changed the install location, check the `ZSH` environment variable in `~/.zshrc`.
+- You _might_ need to modify your `PATH` in `~/.zshrc` if you're not able to find some commands after switching to `oh-my-zsh`.
+- If you installed manually or changed the install location, check the `ZSH` environment variable in `~/.zshrc`.
 
 ### Custom Plugins and Themes
 
@@ -237,8 +311,8 @@ Thank you so much!
 
 We're on the social media.
 
-* [@ohmyzsh](https://twitter.com/ohmyzsh) on Twitter. You should follow it.
-* [Oh My Zsh](https://www.facebook.com/Oh-My-Zsh-296616263819290/) on Facebook.
+- [@ohmyzsh](https://twitter.com/ohmyzsh) on Twitter. You should follow it.
+- [Oh My Zsh](https://www.facebook.com/Oh-My-Zsh-296616263819290/) on Facebook.
 
 ## Merchandise
 
